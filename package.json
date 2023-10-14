@@ -2,7 +2,7 @@
   "name": "dressstore",
   "version": "1.0.0",
   "description": "COMP229 Assignment 2, DressStore API",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -10,6 +10,7 @@
   "author": "Razeen Rahman",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.6.2"
   }
 }
