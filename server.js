@@ -1,23 +1,53 @@
-// Define dependencies
-const express = require('express');
+// Define Module Dependencies
 const mongoose = require('mongoose');
+const http = require('http');
+
+// Define Config Dependencies
+const app = require('./config/app');
+const configDB = require('./config/db');
 
 // Define project constants
-const app = express();
-const port = 3000;
+const db = configDB();
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-// Define routes
-app.get('/', (req, res) => {res.send('Hello World')});
+// Create HTTP Server
+const server = http.createServer(app);
 
-// Connect to MongoDB
-const mongoDB_url = "mongodb+srv://razzberry:comp229pass@comp229cluster.hkh7vxl.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoDB_url).then(() => {
-    console.log('Connected to MongoDB');
+// Listen on Port
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-    // Start the application and listen for events
-    app.listen(port, () => {
-        console.log('Application is listening on PORT: ' + port);
-    });
-}).catch((error) => {
-    console.log(error);
-});
+// Normalize Port into Number, String or False
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+    if (isNaN(port)) { return val; }
+    if (port >= 0) { return port; }
+    return false;
+}
+
+//HTTP 'error' Event Listener
+function onError(error) {
+    if (error.syscall !== 'listen') { throw error; }
+    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated priveleges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default: throw error;
+    }
+}
+
+// HTTP 'listening' Server Event Listener
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    console.log('App is listening on port: ' + port);
+}
