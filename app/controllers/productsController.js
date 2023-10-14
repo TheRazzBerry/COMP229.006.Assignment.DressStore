@@ -46,6 +46,6 @@ module.exports.delete = async function(req, res, next) {
         if(!product) {
             return res.status(404).json({ message: "Product was not deleted!" });
         }
-        res.status(200).json({ message: "Product with ID: " + id + "was be deleted." });
+        res.status(200).json({ message: "Product with ID: " + id + " was deleted." });
     } catch (error) { next(error); }
 }
