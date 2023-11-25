@@ -13,7 +13,7 @@ module.exports.getAll = async function(req, res, next) {
 
 module.exports.getOne = async function(req, res, next) {
     try {
-        let {id} = req.params
+        let {id} = req.params;
         let product = await productModel.findById(id);
         res.status(200).json(product);
         next();
